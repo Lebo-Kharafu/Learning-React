@@ -11,7 +11,7 @@ function Card() {
         /*This is manual state management using event/ and dom*/
         /*likeCount++;
         e.target.innerText ="❤️ "+likeCount;*/
-        setCount(likeCount+1);
+        setCount(prevlikeCount => likeCount+1);
     };
 
     return (
