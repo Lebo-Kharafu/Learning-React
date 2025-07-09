@@ -1,30 +1,39 @@
-.card{
+.student-card{
     border: solid hsla(219, 79%, 30%) 1px;
     border-radius: 1px;
     box-shadow: 0px 0px 10px hsla(219, 79%, 80%);
     padding: 10px;
     margin: 5px;
     display: inline-block;
-    max-width: 250px;
+    width: 250px;
+    height: 250px ;
+    /* height: auto; */
 
     text-align: center;
 }
 
-.card .card-img{
+.student-card .student-card-img{
     border: solid blanchedalmond 1px;
+    aspect-ratio: 1 / 1; 
+    object-fit: cover;
     border-radius: 50%;
     padding: 2px;
     margin: 1px;
-    max-width: 60%;
+
+    min-height: 150px;
+    width: 60%;
     height: auto;
+    
+    display: inline-block;
+    align-content: center;
 }
 
-.card .card-title{
+.student-card .student-card-title{
     margin: 0;
     color: hsla(219, 79%, 66%);
 }
 
-.card .card-text{
+.student-card .student-card-text{
     margin: 0;
     color: hsla(219, 79%, 80%);;
 }
