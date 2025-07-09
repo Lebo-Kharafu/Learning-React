@@ -1,14 +1,13 @@
-import './App.css'
-import Header from './componets/header/Header.jsx';
-import Footer from './componets/footer/Footer.jsx';
+import './App.css';
+import Card from './componets/card/Card.jsx';
 function App() {
   return (
     <>
-      <Header></Header>
-      <hr />
-      <Footer></Footer>
+      <Card></Card>
+      <Card></Card>
+      <Card></Card>   
     </>
-  )
+  );
 }
 
 export default App
