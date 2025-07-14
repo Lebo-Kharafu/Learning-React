@@ -1,9 +1,26 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { useEffect, ReactNode } from "react";
+
+function RouteGuard({children} : {children : ReactNode}) {
+    const router = useRouter();
+    const isAuth = false;
+
+    useEffect(() => {
+        if(!isAuth){
+            router.replace("/auth");
+        }
+    });
+
+    return <>{children}</>
+
+}
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown:false }}/>
-    </Stack>
+    <RouteGuard>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown:false }}/>
+      </Stack>
+    </RouteGuard>
   );
 }
