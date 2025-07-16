@@ -1,11 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
 
-export default function login() {
+export default function StreakScreen() {
   return (
     <View
       style={styles.view}
     >
-      <Text>Login-Page</Text>
+      <Text>Streak</Text>
     </View>
   );
 
