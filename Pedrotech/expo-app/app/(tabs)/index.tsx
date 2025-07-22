@@ -1,3 +1,4 @@
+import React = require("react");
 import { client, DATABASE_ID, databases, HABITS_COLLECTION_ID, HABITS_COMPLETED_COLLECTION_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { Habit, HabitCompleted, RealtimeResponse } from "@/types/database.type";
