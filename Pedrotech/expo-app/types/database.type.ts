@@ -10,6 +10,12 @@ export interface Habit extends Models.Document {
     created_at: string,
 }
 
+export interface HabitCompleted extends Models.Document {
+    habit_id:string,
+    user_id: string,
+    created_at: string,
+}
+
 export interface RealtimeResponse {
     events:string[];
     payload: any;
