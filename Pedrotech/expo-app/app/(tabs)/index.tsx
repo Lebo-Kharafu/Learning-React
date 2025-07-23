@@ -1,9 +1,8 @@
-import React = require("react");
 import { client, DATABASE_ID, databases, HABITS_COLLECTION_ID, HABITS_COMPLETED_COLLECTION_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { Habit, HabitCompleted, RealtimeResponse } from "@/types/database.type";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {View, StyleSheet, ScrollView } from "react-native";
 import { ID, Query } from "react-native-appwrite";
 import { Swipeable } from "react-native-gesture-handler";
@@ -57,6 +56,7 @@ export default function Index() {
     }
   },[user]);
 
+  const isCompleted = (HabitId:string) => completedHabits?.includes(HabitId);
 
   const renderRightActions = () => (
     <View style={styles.swipeActionRight}>
@@ -199,7 +199,7 @@ const fetchTodaysHabits = async () => {
                 swipeableRefs.current[habit.$id]?.close();  
               }}
               >
-                <Surface  style={styles.card} elevation={0}>              
+                <Surface  style={[styles.card, isCompleted(habit.$id) && styles.cardCompleted]} elevation={0}>              
                   <View style={styles.cardContent}>
                     <Text style={styles.cardTitle}>
                       {habit.title}
@@ -287,6 +287,10 @@ const styles = StyleSheet.create({
     shadowOffset:{width:0, height:2},
     shadowOpacity:0.80,
     elevation:4
+  },
+  cardCompleted: {
+    backgroundColor:"#f7f2ea",
+    opacity:0.5,
   },
   cardContent: {
     padding:20,
