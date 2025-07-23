@@ -17,9 +17,39 @@ export default function StreakScreen() {
   useEffect(() => {
 
     if (user) {
+      const habitsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
+      const HabitStreakSub = client.subscribe(
+        habitsChannel,
+        (response: RealtimeResponse) => {
+          if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+            fetchHabits();
+          }
+          else if (response.events.includes("databases.*.collections.*.documents.*.update")) {
+            fetchHabits();
+          }
+          else if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
+            fetchHabits();
+          }
+        }
+      );
+
+      const completionsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COMPLETED_COLLECTION_ID}.documents`;
+      const completedSub = client.subscribe(
+        completionsChannel,
+        (response: RealtimeResponse) => {
+          if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+            fetchAllHabits();
+          }
+        }
+      );
 
       fetchHabits();
       fetchAllHabits();
+
+      return () => {
+        HabitStreakSub();
+        completedSub();
+      }
 
     }
   }, [user]);
@@ -74,8 +104,8 @@ export default function StreakScreen() {
 
     const habitCompletion = completedHabits
       ?.filter((habit) => habit.habit_id === habitID)
-      .sort((a, b) => new Date(a.completed_at).getTime() -
-        new Date(b.completed_at).getTime()
+      .sort((a, b) => new Date(b.completed_at).getTime() -
+        new Date(a.completed_at).getTime()
       );
 
     if (habitCompletion?.length === 0) {
@@ -102,13 +132,16 @@ export default function StreakScreen() {
         }
       }
       else {
-        if (currentStreak > bestStreak) {
-          bestStreak = currentStreak;
-        }
-        streak = currentStreak;
-        lastDate = date;
+        currentStreak = 1;
       }
+
+      if (currentStreak > bestStreak) {
+        bestStreak = currentStreak;
+      }
+      streak = currentStreak;
+      lastDate = date;
     }
+
     );
 
     return { streak, bestStreak, total }
@@ -121,7 +154,7 @@ export default function StreakScreen() {
   }
   );
 
-  const rankedHabits = habitStreak.sort((a, b) => a.bestStreak - b.bestStreak);
+  const rankedHabits = habitStreak.sort((a, b) => b.bestStreak - a.bestStreak);
 
   return (
     <View
@@ -273,8 +306,8 @@ const styles = StyleSheet.create({
   statsBadgeLabel: {
     fontSize: 11,
     color: "#888",
-    marginTop:2,
-    fontWeight:"500"
+    marginTop: 2,
+    fontWeight: "500"
   },
   habitStreak: {
 
