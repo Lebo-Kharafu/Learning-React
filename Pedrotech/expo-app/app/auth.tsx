@@ -1,5 +1,6 @@
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "expo-router";
+import React from "react";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View} from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";

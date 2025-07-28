@@ -1,6 +1,7 @@
 import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { router } from "expo-router";
+import React from "react";
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { ID } from "react-native-appwrite";

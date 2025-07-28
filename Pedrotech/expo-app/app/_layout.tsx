@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import React from "react";
 
 function RouteGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
