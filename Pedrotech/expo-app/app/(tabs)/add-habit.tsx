@@ -1,11 +1,12 @@
 import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { router } from "expo-router";
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { ID } from "react-native-appwrite";
 import { Text, Button, SegmentedButtons, TextInput, useTheme } from "react-native-paper";
+import { TimePickerModal } from 'react-native-paper-dates';
 
 const FREQ = ["Daily", "Weekly", "Monthly"];
 type Freq = (typeof FREQ)[number];
@@ -16,8 +17,22 @@ export default function AddHabitScreen() {
   const [desc, setDesc] = useState<string>("");
   const [freq, setFreq] = useState<Freq>("daily");
   const [error, setError] = useState<string>("");
+  const [pickerVisibility, setPickerVisibility] = useState<boolean>(false);
   const { user } = useAuth();
   const theme = useTheme();
+
+  const onDismiss = useCallback(() => {
+    setPickerVisibility(false);
+  }, [setPickerVisibility])
+
+  const onConfirm = useCallback(
+    //@ts-ignore
+    ({ hours, minutes }) => {
+      setPickerVisibility(false);
+      console.log({ hours, minutes });
+    },
+    [setPickerVisibility]
+  );
 
 
   const handleAddHabit = async () => {
@@ -31,8 +46,8 @@ export default function AddHabitScreen() {
         {
           user_id: user.$id,
           title,
-          description:desc,
-          frequency:freq,
+          description: desc,
+          frequency: freq,
           streak_count: 0,
           last_completed: new Date().toISOString(),
           created_at: new Date().toISOString(),
@@ -90,6 +105,18 @@ export default function AddHabitScreen() {
           {error}
         </Text>
       }
+
+      <View>
+        <Text>{"Choose a reminder time"}</Text>
+        <Button onPress={() => setPickerVisibility(true)} mode="outlined">
+          {"Pick time"}
+        </Button>
+        <TimePickerModal
+          visible={pickerVisibility}
+          onDismiss={onDismiss}
+          onConfirm={onConfirm}
+        />
+      </View>
 
 
     </View>
